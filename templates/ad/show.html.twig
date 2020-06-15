@@ -14,6 +14,17 @@
             <strong>{{ ad.rooms }} chambres</strong> pour <strong>{{ ad.price }}&euro;</strong> par nuit.
         </p>
         <a href="#" class="btn btn-primary">Réserver !</a>
+
+        {% if app.user and app.user == ad.author %}
+            {# Ajout d'un boutton sur l'annonce pour l'editer si l'on est l'autheur #}
+            <a href="{{ path('ads_edit', {'slug': ad.slug} )}}" class="btn btn-primary"> Modifier l'annonce</a>
+            {# Ajout d'un boutton sur l'annonce pour la supprimer si l'on est l'autheur #}
+            {# la fonction Js onclick permet d'avoir un pop up de confimation, attention a la synthaxe ce sont des backflips `` et non des '' #}
+            <a href="{{ path('ads_delete', {'slug': ad.slug} )}}" class="btn btn-danger" onclick="return confirm( `Êtes vous sur de vouloire supprimer l'annonce : {{ad.title}} ?` )">
+                Supprimer l'annonce
+            </a>
+
+        {% endif %}
     </div>
 </div>
 

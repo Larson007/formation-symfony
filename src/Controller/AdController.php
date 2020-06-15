@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdController extends AbstractController
@@ -30,6 +32,8 @@ class AdController extends AbstractController
      * permet de créer une annonce
      *
      * @Route("/ads/new", name="ads_create")
+     * 
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
@@ -76,6 +80,8 @@ class AdController extends AbstractController
      *
      * @Route("/ads/{slug}/edit", name="ads_edit")
      * 
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Cette annonce ne vous appartient pas, vous ne pouvez pas la modifier")
+     * 
      * @return Response
      */
         public function edit(Ad $ad, Request $request, ObjectManager $manager)  // ParamController=(Ad $ad), Request et ObjectManager nécéssaire pour les variables $request et $manager du Form
@@ -119,6 +125,34 @@ class AdController extends AbstractController
         return $this->render('ad/show.html.twig', [
             'ad' => $ad                                                         // on envoi les données de notre Entity Ad $ad vers le template pour pouvoir avoir accèes au donnée de celle-ci
         ]);
+    }
+
+    /**
+     * Permet de supprimer une annonces
+     *
+     * @Route("/ads/{slug}/delete", name="ads_delete")
+     * 
+     * @Security("is_granted('ROLE_USER') and user == ad.getAuthor()", message="Vous n'avez pas le droit d'acceder à cette ressource")
+     * 
+     * @param Ad $ad                            // Elle va recevoir une Ad
+     * @param ObjectManager $manager            // va sauvegarder la supression en BDD
+     * @return Response
+     */
+    public function delete(Ad $ad, ObjectManager $manager)
+    {   
+        // On dde au manager de supprimer l'annonce de notre BDD
+        $manager->remove($ad);
+        // On confirme l'envoi de la Requete de suppression
+        $manager -> flush();
+
+        // Si ok message de confirmation
+        $this->addFlash(
+            'success',
+            "L'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimeée"
+        );
+
+        // On redirige vers la page d'index des annonces
+        return $this->redirectToRoute("ads_index");
     }
 }
 
