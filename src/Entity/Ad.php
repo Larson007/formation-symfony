@@ -79,6 +79,7 @@ class Ad
      */
     private $author;
 
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -230,4 +231,5 @@ class Ad
 
         return $this;
     }
+
 }

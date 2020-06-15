@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{# On a stocker dans le userController la variable user qui contiens les champs de l'Entity User #}
+{% block title %}Page de {{user.fullName}}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-3 text-center">
+            <img src="{{ user.picture }}" alt="Avatar de {{user.fullName}}" class="avatar mb-3">
+            <br>
+            <span class="badge badge-primary">{{user.ads | length}} annonces</span>
+        </div>
+        <div class="col-9">
+            <h1>{{user.fullName}}</h1>
+
+            {# On vérifie si la personne sur la page profil est la personne connecté #}
+            {% if user is same as(app.user) %}
+                <div class="mt-3">
+                    <a href="{{ path('app_profile') }}" class="btn btn-primary mr-2 mb-2">
+                        Modifier mes informations
+                    </a>
+                    <a href="{{ path('app_password-update') }}" class="btn btn-primary mb-2">
+                        Modifier mon mot de passe
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="my-3">
+    {{ user.description | raw }}
+    </div>
+    <hr>
+    <h2>Les annonces de {{ user.fullName }}</h2>
+
+    {# On vérifie si l'User a bien poster une annonce #}
+    {% if user.ads | length > 0 %}
+    <div class="row">
+
+        {# On affiche chaque annonces de l'utilisateur si il en as poster #}
+        {% for ad in user.ads %}
+
+            {# On importe le template d'affichage des annonces exporter dans un fichier à part pour ne pas ce répété car déja present dans "ad/index.html.twig" #}
+            {% include "ad/_ad.html.twig" %}
+        {% endfor %}
+    </div>
+
+    {# Msg alerte à afficher si l'utilisateur n'a posté aucune annonces #}
+    {% else %}
+    <div class="alert alert-warning">
+        <p><strong>{{user.fullName}}</strong> n'a pas encore d'annonce sur le site !
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

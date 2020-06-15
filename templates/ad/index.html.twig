@@ -9,29 +9,8 @@
     <div class="row">
         {% for ad in ads %}
 
-            {% set url = path('ads_show', {'slug': ad.slug}) %}                             {# Définition de la variables via TWIG #}
+            {% include "ad/_ad.html.twig" %} {# On a exporter vers un tempate a part la gestion d'affichage des annonces car celle-ci ce repete dans la page utilisateur #}
 
-        <div class="col-md-4">
-            <div class="card bg-light mb-3">
-                <div class="card-header text-center">
-                    {{ ad.rooms}} chambres, <strong>{{ ad.price }}&euro; / nuit</strong> <br>
-                    <small>pas encore noté</small>
-                </div>
-                <a href="{{ url }}">                                                        {# On mets la variable a la place du code : <a href="{{ path('ads_show', {'slug': ad.slug}) }}"> #}
-                    <img src="{{ ad.coverImage }}any" alt="Image de l'appartement"
-                        style="height: 200px; width: 100% display: block">
-                </a>
-                <div class="card-body">
-                    <a href="{{ url }}">
-                        <h4 class="card-title">{{ ad.title }}</h4>
-                    </a>
-                    <p class="card-text">
-                        {{ ad.introduction }}
-                    </p>
-                    <a href="{{ url }}" class="btn btn-secondary">En savoir plus</a>
-                </div>
-            </div>
-        </div>
         {% endfor %}
     </div>
 

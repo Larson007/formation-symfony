@@ -45,13 +45,13 @@ class AppFixtures extends Fixture
             // la méthode encodePassword viens de la class UserPasswordEncoderInterface stocker dans 'encoder' et encode le MDP avec l'encodeur choisir dans security.yaml
             $password = $this->encoder->encodePassword($user, 'password');  // encodePassword prend 2 paramettres (l'Entity cible , le MDP à encoder ) et va retouner le 2ieme paramettre hasher dans $hash
 
-            $user   #-> setFirstName($faker->firstname($genre))      // $faker va donner un nom/prenom en fonction du genre
-                    #-> setLastname($faker->lastName($genre))
+            $user   -> setFirstName($faker->firstname($genre))      // $faker va donner un nom/prenom en fonction du genre
+                    -> setLastname($faker->lastName($genre))
                     -> setEmail($faker->email)
-                    #-> setIntroduction($faker->sentence())
-                    #-> setDescription($faker->paragraph(3))
-                    -> setPassword($password);                               // On définit le champs MDP via la variable $hash construite plus tôt 
-                    #-> setPicture($picture);                        // On appel notre condition $picture qui gére les avatar par genre via randomuser.me
+                    -> setIntroduction($faker->sentence())
+                    -> setDescription($faker->paragraph(3))
+                    -> setPassword($password)                               // On définit le champs MDP via la variable $hash construite plus tôt 
+                    -> setPicture($picture);                        // On appel notre condition $picture qui gére les avatar par genre via randomuser.me
 
             $manager->persist($user);                               // On dde a sauvegarder x10 nos $user générer via $faker
             $users [] = $user;                                      // On place les $user dans le tableau vide $users créer précédement

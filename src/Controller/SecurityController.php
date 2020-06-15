@@ -33,6 +33,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
+
     /**
      * @Route("/logout", name="app_logout")
      */
@@ -131,6 +132,20 @@ class SecurityController extends AbstractController
 
         return $this->render('security/password.html.twig', [
             'form' => $form->createView()                       // On oublie pas d'envoyer le formulaire stocker dans $form vers le template ! 
+        ]);
+    }
+
+    /**
+     * Affiche la page de profil de l'utilisateur connecté
+     *
+     * @Route("/account", name="account_index")
+     *
+     * @return Response
+     */
+    public function MyAccount()
+    {
+        return $this->render('user/index.html.twig', [
+            'user' => $this->getUser()                      // on dde a récupérer l'utilisateur connecté
         ]);
     }
 }

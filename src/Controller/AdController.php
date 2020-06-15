@@ -36,12 +36,8 @@ class AdController extends AbstractController
     public function create (Request $request, ObjectManager $manager)
     {
         $ad = new Ad();
-
         $form = $this->createForm(AdType::class, $ad);
-
         $form ->handleRequest($request);
-
-
 
         if ($form->isSubmitted() && $form->isValid()) {
         
@@ -54,6 +50,8 @@ class AdController extends AbstractController
                 // On dde au manager de faire persiste l'image 
                 $manager->persist($image);
             }
+
+            $ad->setAuthor($this->getUser()); // Ajoute la personne connecter comme autheur de l'annonce créée dont getUser() fait référence
 
             $manager ->persist($ad);
             $manager ->flush();
@@ -86,7 +84,6 @@ class AdController extends AbstractController
             $form ->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-        
                 foreach ($ad->getImages() as $image) {
                     $image  ->setAd($ad);
                     $manager->persist($image);
@@ -117,10 +114,10 @@ class AdController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Ad $ad)
+    public function show(Ad $ad)                                                //  Import de l'Entity Ad stocker dans la variable $ad
     {
         return $this->render('ad/show.html.twig', [
-            'ad' => $ad
+            'ad' => $ad                                                         // on envoi les données de notre Entity Ad $ad vers le template pour pouvoir avoir accèes au donnée de celle-ci
         ]);
     }
 }

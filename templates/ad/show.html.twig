@@ -55,21 +55,24 @@
 
         </div>
         <div class="col">
+        {# On place l'autheur d'une annonce "ad.author" dans la variable "a" pour éviter de ce répéter #}
+        {% set a = ad.author %}
             <div class="row">
-                <div class="col-4">
-                    <img src="http://placeimg.com/64/64" alt="Avatr de Mohamed">
+                <div class="col-3">
+                    {# On met un lien vers la page de profil depuis l'annonce #}
+                    {# ATTENTION : Ne pas oublier que nous devons passer le param slug dans le path défini dans le UserController #}
+                    <a href="{{path('user_show', {'slug': a.slug } )}}">
+                    <img src="{{ a.picture }}" alt="Avatar de {{ a.firstName }} {{ a.lastName }}" class="avatar avatar-medium">
+                    </a>
                 </div>
                 <div class="col">
-                    <h3>Mohamed Ben Allal</h3>
-                    <span class="badge badge-primary">3 annonces</span>
+                    <a href="{{path('user_show', {'slug': a.slug } )}}">
+                        <h3>{{ a.firstName }} {{ a.lastName }}</h3>
+                    </a>
+                    <span class="badge badge-primary">{{a.ads | length}} annonces</span>
                 </div>
             </div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde qui rerum possimus pariatur culpa
-                laboriosam suscipit consequatur, ipsa incidunt vero.</p>
-            <p>Nam sit eveniet libero dolor praesentium reprehenderit animi est, voluptatibus quod sequi eaque? Ipsa
-                itaque ducimus dicta quidem, quaerat sequi.</p>
-            <p>Atque hic suscipit, tenetur reiciendis commodi aspernatur reprehenderit, asperiores, et sed quibusdam
-                cumque! Temporibus magni, cumque consequuntur eos explicabo alias.</p>
+            {{ a.description }}
         </div>
     </div>
 </div>

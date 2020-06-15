@@ -12,9 +12,12 @@ class AccountType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('firstName')
+            ->add('lastName')
             ->add('email')
-            #->add('roles')
-            ->add('password')
+            ->add('picture')
+            ->add('introduction')
+            ->add('description')
         ;
     }
 
