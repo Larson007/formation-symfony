@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion a l'administration</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+
+
+<body>
+    <div class="container-fluid">
+        <div class="col-md-4 mx-auto my-5">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h4 class="card-title">
+                        <i class="fas fa-lock"></i>
+                        Connexion à l'administration
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if error %}
+                        <div class="alert alert-warning">
+                            <p>Les informations que vous avez fournies ne sont pas bonnes</p>
+                        </div>
+                    {% endif %}
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="_username">email</label>
+                            <input type="text" class="form-control" placeholder="Adresse email" name="_username" value="{{ last_username }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="_password">Mot de passe</label>
+                            <input type="password" class="form-control" placeholder="Votre mot de passe" name="_password">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-lock-open"></i>
+                                Connexion
+                            </button>
+                            <a href="{{ path('homepage') }}" class="btn btn-link">
+                                <i class="fas fa-arrow-circle-left"></i>
+                                Retour au site
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

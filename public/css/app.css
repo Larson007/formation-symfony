@@ -32,3 +32,21 @@ div.carousel-caption {
     max-width: 34px;
     max-height: 34px;
 }
+
+.avatar-micro {
+    max-width: 25px;
+    max-height: 25px;
+}
+
+.alert a {
+    text-decoration: none;
+}
+
+.alert .btn {
+    color: white;
+}
+
+.alert-heading {
+    color: black;
+    font-size: 2rem;
+}

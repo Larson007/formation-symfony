@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="{{ path('homepage') }}">SymBNB</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+        aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('homepage') }}">
+                <i class="fas fa-chart-line"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin_ads_index') }}">
+                <i class="fas fa-hotel"></i>
+                    Annonces
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                <i class="fas fa-users"></i>
+                    Utilisateurs
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+            {# target="_blank" permet d'ouvrir dans un autre onglet #}
+                <a href="{{path('homepage')}}" class="nav-link" target="_blank">
+                    <i class="fas fa-eye"></i>
+                    Voire le site
+                </a>
+            </li>
+            {% if app.user %}
+            <li class="nav-item dropdown">
+                {# data-toggle="dropdown" pour préciser au lien <a> que celui ci ouvre un drop down et non un lien vers une autre page #}
+                <a href="#" class="nav-link dropdown-toggle" id="accountDropDownLink" data-toggle="dropdown">
+                    <img src="{{ app.user.picture }}" alt="Avatar de {{ app.user.fullName }}"
+                        class="avatar avatar-mini">
+                    {{ app.user.fullName }}
+                </a>
+                {#  aria-labelledby fais le lien avec l'id du <a> précédent #}
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropDownLink">
+                    <a href="{{ path('admin_account_logout') }}" class="dropdown-item">Déconnexion</a>
+                </div>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+{% for label, messages in app.flashes %}
+<div class="container">
+    <div class="alert alert-{{ label }}">
+        {% for message in messages %}
+        <p>{{ message | raw }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}

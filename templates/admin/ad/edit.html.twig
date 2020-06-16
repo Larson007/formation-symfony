@@ -1,0 +1,91 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Mmodification de l'annonce
+{{ ad.id }}
+{% endblock %}
+
+{# Permet d'utiliser le template formulaire de ce fichier pour en hériter dans le sous form image #}
+{% form_theme form _self %}
+
+{% block body %}
+<div class="container">
+    <h1 class="my-5">Modification de l'annonce
+        {{ ad.title }}</h1>
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h4 class="card-title">Corriger l'annonce</h4>
+                </div>
+                <div class="card-body">
+                    {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Enregistrer les modifications
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+</div>
+{% endblock %}
+
+{# Ce block permet de personaliser le label défnit dans le form principal #}
+{% block _ad_images_entry_row %}
+    {# On donne a chaque images (url+cpation) un id pour pouvoire cibler chaque entry  #}
+    <div id="block_{{id}}">
+        {# Remplace le form_row qui contient le form_label en une simple form_widget #}
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
+{# On créer un nouveau block pour génrer les images a partir d'un sous form image #}
+{% block _ad_images_images %}
+    {# Dans le block actuel, le form ne represente que le champ de la collection images #}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{# On surcharger les entry images #}
+{% block _ad_images_entry_widget %}
+    <div class="row align-items-center mb-3">
+        <div class="col-4">
+            {# Chaque entry image qui est un tableau contient une value avec a l'interieur l'url ou le cpation de l'image #}
+            {# Donc si une entry a bien une value on veut que celle ci puisse etre appeler #}
+            {% if value %} 
+                {# Ici value.url = l'url de l'image  #}
+                <img src="{{value.url}}any" alt="" class="img-fluid">
+            {% endif %}
+        </div>
+        <div class="col-6">
+                {# le form_row correspond a l'Entity Image qui contient caption en champ dans  le formulaire ImageType #}
+            {{ form_row(form.caption) }}
+        </div>
+        <div class="col">
+            {# préciser type='button' pour ne pas soumettre le form mais just avoir une action définit dans me script lors du click sur le button #}
+            {# data-action="delete" est définit dans le script pour supprimer la cible qui est l'entry complet définit par son #id #}
+            <button type="button" class="btn btn-danger" data-action="delete" data-target="#block_{{id}}">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{# Scipt Jquery pour gérer la suppression des images #}
+<script>
+    {# on attend que la page est fini de charger avant de charger la fonction #}
+    $(document).ready(function(){
+        // 1 - On recupère tt les balise avec l'attribue data-action="delete"
+        // 2 - En clickant dessus je veut lancer la fonction suivante
+        $('[data-action="delete"]').on('click', function(){
+            // On place les balises avec l'attribue data-target dans la variable target
+            const target = this.dataset.target;
+            // On supprime la cible data-target
+            $(target).remove();
+        });
+    });
+</script>
+{% endblock %}
