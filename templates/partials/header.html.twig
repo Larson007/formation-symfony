@@ -18,7 +18,7 @@
             {% if app.user %}
                 <li class="nav-item dropdown">
                     {# data-toggle="dropdown" pour préciser au lien <a> que celui ci ouvre un drop down et non un lien vers une autre page #}
-                    <a href="#" class="nav-link dropdown-toggle" id="accountDropDownLink" data-toggle="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="accountDropDownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="{{ app.user.picture }}" alt="Avatar de {{ app.user.fullName }}" class="avatar avatar-mini">
                         {{ app.user.fullName }}
                     </a>

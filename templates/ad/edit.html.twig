@@ -22,7 +22,7 @@
 
 
 
-{% block javascripts %} {# block regroupent nos scripts Js #}
-    {# Import du fichier js contenant nos script #}
-    <script src="/js/ad.js"></script>
+{% block javascripts %}
+{{ encore_entry_script_tags('app') }}
+{{ encore_entry_script_tags('ad') }}
 {% endblock %}
